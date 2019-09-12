@@ -3,18 +3,23 @@ import {
   SafeAreaView,
   StyleSheet,
 } from 'react-native';
-import { Provider } from 'react-redux';
-import store from './store';
+import FeedContextProvider from './context/FeedContext';
 
 import AppHeader from './components/Header';
+import Feed from './components/Feed';
+
+if (__DEV__) {
+  require('react-devtools');
+}
 
 const App = () => {
   return (
     <Fragment>
       <SafeAreaView>
-        <Provider store={store}>
+        <FeedContextProvider>
           <AppHeader></AppHeader>
-        </Provider>
+          <Feed></Feed>
+        </FeedContextProvider>
       </SafeAreaView>
     </Fragment>
   );
