@@ -40,7 +40,7 @@ class Feed extends Component{
       title: "my title",
       body: "Hyper ultra mega big body.",
       likes: 3,
-      good: true,
+      good: false,
       user: {
         name: "Lorem Ipson",
         username: "lorem",
@@ -48,6 +48,10 @@ class Feed extends Component{
       }
     }];
   const {isGood, isBad, toggleGood} = this.context;
+    function filterPost(value) {
+      return value.good;
+    }
+  goodPosts = posts.filter(filterPost);
   return (
       <ScrollView style={styles.container}>
         {isGood && isBad ? ( 
@@ -59,7 +63,12 @@ class Feed extends Component{
           </View>
             )
         : isGood ? (
+          <View>
           <Text style={styles.appTitle}>Showing just Good</Text>
+            {goodPosts.map(post => (
+              <Text style={styles.appTitle}>{post.title}</Text>
+            ))}
+          </View>
         ):(
             <Text style={styles.appTitle}>Showing just Bad</Text>
         )
