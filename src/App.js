@@ -8,24 +8,25 @@ import FeedContextProvider from './context/FeedContext';
 import AppHeader from './components/Header';
 import Feed from './components/Feed';
 
-if (__DEV__) {
-  require('react-devtools');
-}
+//if (__DEV__) {
+//  require('react-devtools');
+//}
 
 const App = () => {
   return (
-    <Fragment>
-      <SafeAreaView>
+      <SafeAreaView style={styles.container}>
         <FeedContextProvider>
-          <AppHeader></AppHeader>
-          <Feed></Feed>
+          <AppHeader />
+          <Feed />
         </FeedContextProvider>
       </SafeAreaView>
-    </Fragment>
   );
 };
 
 const styles = StyleSheet.create({
+  container:{
+    alignSelf:'stretch',
+  }
 });
 
 export default App;
