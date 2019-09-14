@@ -24,7 +24,7 @@ class AppHeader extends Component {
           <Icon color={isBad ? '#faa' : '#000'} size={32} name="md-leaf" />
         </TouchableOpacity>
         <View style={styles.inputContainer}>
-          <TextInput placeholder="Insira uma cidade..." />
+          <TextInput style={styles.input} placeholder="Insira uma cidade..." />
         </View>
         <Icon
           style={styles.picIcon}
@@ -58,11 +58,24 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 5,
   },
+  input: {
+    alignContent:'stretch',
+    alignSelf:'flex-start',
+    textAlignVertical: 'center',
+    margin:0,
+    padding:0,
+  },
   inputContainer: {
+    marginStart: 10,
+    marginEnd:6,
+    flexDirection: 'row', 
+    paddingStart:10,
+    alignItems: 'center',
+    alignContent: 'center',
     backgroundColor: '#d8dee9',
-    borderRadius: 16,
-    paddingStart: 4,
-    height: 38,
+    borderRadius: 18,
+    paddingStart: 10,
+    height: 34,
     minWidth: 160,
     maxWidth: 300,
   },

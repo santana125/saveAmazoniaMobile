@@ -5,7 +5,7 @@ export const FeedContext = createContext();
 class FeedContextProvider extends Component {
   state = {
     isGood: true,
-    isBad: true,
+    isBad: true, 
   }
   componentDidUpdate(){
       if(!this.state.isGood && !this.state.isBad) 
