@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, FlatList, Alert, TouchableWithoutFeedback} from 'react-native';
+import {View, Text, StyleSheet,TouchableWithoutFeedback} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 class FeedItems extends Component {
@@ -12,9 +12,8 @@ class FeedItems extends Component {
   }
   turnOff = () => {
     setTimeout(() => this.setState({showingLike: false}), 900);
-    
   }
-  
+
   lastTap = null;
   handleLike = () => {
     const now = Date.now();
@@ -24,9 +23,9 @@ class FeedItems extends Component {
       this.setState({showingLike: true});
       this.turnOff();
       this.props.Item.liked = !this.props.Item.liked;
-    }
-    else
+    } else {
       this.lastTap = now;
+    }
   }
 
   render() {
@@ -34,7 +33,7 @@ class FeedItems extends Component {
       <View>
         <View style={styles.postHeader}>
           <View style={styles.profPic }>
-           <Text style={{color:'#FFF', fontWeight:'bold'}}>USER</Text>
+           <Text style={{color: '#FFF', fontWeight: 'bold'}}>USER</Text>
           </View>
           <View style={styles.headerText}>
             <Text>NAME @username</Text>
@@ -43,31 +42,37 @@ class FeedItems extends Component {
         </View>
         <Text style={styles.postTitle}>{this.props.Item.title}</Text>
         {this.state.showingLike ? (
-        <Icon
-          style={styles.likedPlac}
-          name="md-heart"
-          size={128}
-          color="#F56"
-        />) : null}
+          <Icon
+            style={styles.likedPlac}
+            name="md-heart"
+            size={128}
+            color="#F56"
+          />
+        ) : null}
         <TouchableWithoutFeedback  onPressIn={this.handleLike}>
           <View style={styles.imagePlac}>
-            <Text style={{color:'#FFF', fontWeight:'bold'}}> I'm a placeholder</Text>
+            <Text style={{color: '#FFF', fontWeight: 'bold'}}>
+              I'm a placeholder
+            </Text>
           </View>
         </TouchableWithoutFeedback>
         <Text style={styles.postBody}>{this.props.Item.body}</Text>
         <View style={styles.likeView}>
           {this.props.Item.liked ? (
-          <Icon
-            style={styles.heartIcon}
-            name="md-heart"
-            size={26}
-            color="#F55"
-          />) : (<Icon
-            style={styles.heartIcon}
-            name="md-heart-empty"
-            size={26}
-            color="#F55"
-          />)}
+            <Icon
+              style={styles.heartIcon}
+              name="md-heart"
+              size={26}
+              color="#F55"
+            />
+          ) : (
+            <Icon
+              style={styles.heartIcon}
+              name="md-heart-empty"
+              size={26}
+              color="#F55"
+            />
+          )}
           <Text style={styles.likeText}>
             {this.props.Item.likes} pessoas curtiram esta publicação.
           </Text>

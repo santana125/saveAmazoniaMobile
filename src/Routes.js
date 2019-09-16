@@ -19,7 +19,7 @@ const Routes = createAppContainer(
         tabBarIcon:({ tintColor }) => <EnvilIcon name='torsos-all' size={26} style={{color: tintColor}}/>
     }},
   },{
-    initialRouteName: 'Main',
+    initialRouteName: 'User',
     activeColor: '#4c566a',
     inactiveColor: '#8a8f99',
     barStyle: { backgroundColor: '#e5e9f0' },

@@ -92,7 +92,7 @@ class Feed extends Component {
         },
       }]
       this.lastId++
-      this.setState({posts: [...this.state.posts, ...newData]})
+//      this.setState({posts: [...this.state.posts, ...newData]})
   }
 
   lastTap = null;
