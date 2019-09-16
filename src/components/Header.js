@@ -18,10 +18,10 @@ class AppHeader extends Component {
       <View style={styles.container}>
         <Text style={styles.appTitle}>Save Amazônia</Text>
         <TouchableOpacity style={styles.leafs} onPress={toggleGood}>
-          <Icon color={isGood ? '#afa' : '#000'} size={32} name="md-leaf" />
+          <Icon color={isGood ? '#9cc975' : '#adb9cf'} size={32} name="md-leaf" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.leafs} onPress={toggleBad}>
-          <Icon color={isBad ? '#faa' : '#000'} size={32} name="md-leaf" />
+          <Icon color={isBad ? '#e95d6a' : '#adb9cf'} size={32} name="md-leaf" />
         </TouchableOpacity>
         <View style={styles.inputContainer}>
           <TextInput style={styles.input} placeholder="Insira uma cidade..." />
@@ -80,7 +80,9 @@ const styles = StyleSheet.create({
     maxWidth: 300,
   },
   picIcon: {
-    marginHorizontal: 10,
+    justifyContent: 'space-around',
+    alignContent: 'center',
+    marginRight: 6,
   },
 });
 export default AppHeader;

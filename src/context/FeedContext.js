@@ -7,10 +7,12 @@ class FeedContextProvider extends Component {
     isGood: true,
     isBad: true, 
   }
+
   componentDidUpdate(){
       if(!this.state.isGood && !this.state.isBad) 
         this.setState({isGood: true})
   }
+
   toggleGood = () => {
     var newGood;
     if(!this.state.isBad)
