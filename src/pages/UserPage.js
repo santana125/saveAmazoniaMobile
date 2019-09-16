@@ -11,7 +11,7 @@ import Feed from '../components/Feed';
 const UserPage = () => {
   return (
     <FeedContextProvider>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView forceInset={{ bottom: 'never' }} style={styles.container}>
         <View style={styles.userImage}>
           <Text>USER</Text>
         </View>
@@ -26,12 +26,12 @@ const UserPage = () => {
 
 const styles = StyleSheet.create({
   container: {
+    flex:1,
     backgroundColor: '#FAFAFA',
     marginTop: 20,
     alignSelf: 'stretch',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingBottom: 336,
   },
 
   userImage: {

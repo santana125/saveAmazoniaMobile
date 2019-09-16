@@ -30,7 +30,7 @@ class FeedItems extends Component {
 
   render() {
     return (
-      <View>
+      <View style={{flex:1}}>
         <View style={styles.postHeader}>
           <View style={styles.profPic }>
            <Text style={{color: '#FFF', fontWeight: 'bold'}}>USER</Text>

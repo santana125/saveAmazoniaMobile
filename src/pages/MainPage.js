@@ -14,18 +14,19 @@ import Feed from '../components/Feed';
 
 const MainPage = () => {
   return (
-      <SafeAreaView style={styles.container}>
-        <FeedContextProvider>
-          <AppHeader />
-          <Feed />
-        </FeedContextProvider>
-      </SafeAreaView>
+    <SafeAreaView style={styles.container}>
+      <FeedContextProvider>
+        <AppHeader />
+        <Feed />
+      </FeedContextProvider>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container:{
-    alignSelf:'stretch',
+  container: {
+    flex: 1,
+    alignSelf: 'stretch',
   }
 });
 

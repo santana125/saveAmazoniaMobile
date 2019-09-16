@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {View, Text, StyleSheet, FlatList, Alert, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -135,14 +135,13 @@ class Feed extends Component {
     return (
       <View style={styles.container}>
         {isGood && isBad ? (
-          <View style={styles.postView}>
             <FlatList
+              contentContainerStyle={{ flexGrow: 0 }}
               data={this.state.posts}
               onEndReached={this.loadFeed}
               keyExtractor={item => item.id}
               renderItem={({item, index}) => <FeedItems Item={item} />}
           />
-          </View>
         ) : (
           <Text>asda</Text>
         )}
@@ -153,9 +152,8 @@ class Feed extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    alignSelf: 'stretch',
+    flex: 1,
     backgroundColor: '#FAFAFA',
-    paddingBottom: 120,
   },
   postTitle: {
     marginTop: 10,
@@ -170,9 +168,6 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'center',
     paddingHorizontal: 5,
-  },
-  postView: {
-    alignSelf: 'stretch',
   },
   postBody: {
     fontSize: 16,
