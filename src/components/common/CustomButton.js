@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {
-  View,
+  ActivityIndicator,
   Text,
   StyleSheet,
   TouchableOpacity,
@@ -13,25 +13,22 @@ class CustomButton extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <TouchableOpacity style={styles.leafs} onPress={this.props.onPress}>
-            <Text style={styles.btnText}>{this.props.text}</Text>
+      <>
+        <TouchableOpacity style={[styles.leafs, this.props.style]} onPress={this.props.onPress}>
+          {this.props.activity ? (
+              <ActivityIndicator size="small" color="black" />
+              ) : 
+              (
+              <Text style={styles.btnText}>{this.props.title}</Text>
+              )
+          }
         </TouchableOpacity>
-      </View>
+      </>
     );
   }
 }
 //}
 const styles = StyleSheet.create({
-  container: {
-    borderRadius: 22,
-    alignItems: 'center',
-    justifyContent: 'center',
-    elevation: 1,
-    width: 128,
-    height: 36,
-    backgroundColor: '#d8dee9',
-  },
   btnText: {
     fontFamily: 'Roboto',
     fontSize: 18,
@@ -39,7 +36,11 @@ const styles = StyleSheet.create({
     color: '#3b4252',
   },
   leafs: {
-    alignSelf: 'stretch',
+    borderRadius: 22,
+    elevation: 1,
+    height: 36,
+    width: 192,
+    backgroundColor: '#d8dee9',
     justifyContent: 'center',
     alignItems:'center',
     paddingHorizontal: 5,
