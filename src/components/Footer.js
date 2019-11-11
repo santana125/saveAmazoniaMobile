@@ -1,4 +1,3 @@
-
 import React, {Component} from 'react';
 import {
   View,
@@ -19,14 +18,19 @@ class AppFooter extends Component {
     const {isGood, isBad, toggleGood, toggleBad} = this.context;
     return (
       <View style={styles.container}>
-        <TouchableOpacity style={styles.leafs} onPress={() => (Alert.alert('assdasd', 'dasdasd'))}>
+        <TouchableOpacity
+          style={styles.leafs}
+          onPress={() => Alert.alert('assdasd', 'dasdasd')}>
           <Icon color="#aff" size={32} name="md-leaf" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.leafs}>
           <Icon color="#aaa" size={32} name="md-leaf" />
         </TouchableOpacity>
-        <CustomButton text="VOLTAR" onPress={() => (Alert.alert('assdasd', 'dasdasd'))}/>
-        </View>
+        <CustomButton
+          text="VOLTAR"
+          onPress={() => Alert.alert('assdasd', 'dasdasd')}
+        />
+      </View>
     );
   }
 }

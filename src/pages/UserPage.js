@@ -26,7 +26,7 @@ const UserPage = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex:1,
+    flex: 1,
     backgroundColor: '#FAFAFA',
     marginTop: 20,
     alignSelf: 'stretch',

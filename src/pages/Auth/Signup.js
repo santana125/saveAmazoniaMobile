@@ -50,7 +50,6 @@ class Signup extends React.Component {
       const token = response.data.message;
       await AsyncStorage.setItem('@UserToken', token);
       this.props.navigation.navigate('Main');
-      Alert.alert('Sucesso', response.data.message)
     } catch(error){
       Alert.alert('Ocorreu um problema.', error.response.data.message)
     }
@@ -125,7 +124,7 @@ class Signup extends React.Component {
             onSubmitEditing={this.cadastrar}
             />
               <CustomButton style={styles.btn} onPress={this.cadastrar} title='CADASTRAR-SE' activity={this.state.loading}/>
-              <CustomButton style={styles.btn} title='VOLTAR' onPress={this.props.navigation.navigate}/>
+              <CustomButton style={styles.btn} title='VOLTAR'onPress={() => this.props.navigation.navigate('Welcome')} />
       </View>
     </KeyboardAvoidingView>
     </ScrollView>

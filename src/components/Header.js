@@ -18,10 +18,18 @@ class AppHeader extends Component {
       <View style={styles.container}>
         <Text style={styles.appTitle}>Save Amazônia</Text>
         <TouchableOpacity style={styles.leafs} onPress={toggleGood}>
-          <Icon color={isGood ? '#9cc975' : '#adb9cf'} size={32} name="md-leaf" />
+          <Icon
+            color={isGood ? '#9cc975' : '#adb9cf'}
+            size={32}
+            name="md-leaf"
+          />
         </TouchableOpacity>
         <TouchableOpacity style={styles.leafs} onPress={toggleBad}>
-          <Icon color={isBad ? '#e95d6a' : '#adb9cf'} size={32} name="md-leaf" />
+          <Icon
+            color={isBad ? '#e95d6a' : '#adb9cf'}
+            size={32}
+            name="md-leaf"
+          />
         </TouchableOpacity>
         <View style={styles.inputContainer}>
           <TextInput style={styles.input} placeholder="Insira uma cidade..." />
@@ -59,17 +67,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
   },
   input: {
-    alignContent:'stretch',
-    alignSelf:'flex-start',
+    alignContent: 'stretch',
+    alignSelf: 'flex-start',
     textAlignVertical: 'center',
-    margin:0,
-    padding:0,
+    margin: 0,
+    padding: 0,
   },
   inputContainer: {
     marginStart: 10,
-    marginEnd:6,
-    flexDirection: 'row', 
-    paddingStart:10,
+    marginEnd: 6,
+    flexDirection: 'row',
+    paddingStart: 10,
     alignItems: 'center',
     alignContent: 'center',
     backgroundColor: '#d8dee9',

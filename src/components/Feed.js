@@ -1,8 +1,17 @@
 import React, {Component, Fragment} from 'react';
-import {View, Text, StyleSheet, FlatList, Alert, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Alert,
+  TouchableOpacity,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import {FeedContext} from '../context/FeedContext';
+import AsyncStorage from '@react-native-community/async-storage';
+import api from '../services/api';
 
 import FeedItems from './FeedItems';
 
@@ -10,150 +19,103 @@ class Feed extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      likedIndex: '1',
       showingLike: true,
-      posts: [ 
-        {
-        id:"0",
-        photo: './assets/photo.png',
-        title: 'my title for a good post',
-        body: 'Polar Night is made up of four darker colors that are commonly used for base elements like backgrounds or text color in bright ambiance designs.',
-        likes: 3,
-        good: true,
-        liked: true,
-        user: {
-          name: 'Lorem Ipson',
-          username: 'lorem',
-          userId: 345,
-        },
-      },
-        {
-        id:'1',
-        photo: './assets/photo.png',
-        title: 'my title for a good post',
-        body: 'Polar Night is made up of four darker colors that are commonly used for base elements like backgrounds or text color in bright ambiance designs.',
-        likes: 3,
-        good: true,
-        liked: false,
-        user: {
-          name: 'Lorem Ipson',
-          username: 'lorem',
-          userId: 345,
-        },
-      },
-        {
-        id:'2',
-        photo: './assets/photo.png',
-        title: 'my title for a good post',
-        body: 'Polar Night is made up of four darker colors that are commonly used for base elements like backgrounds or text color in bright ambiance designs.',
-        likes: 3,
-        good: true,
-        liked: false,
-        user: {
-          name: 'Lorem Ipson',
-          username: 'lorem',
-          userId: 345,
-        },
-      },
-        {
-        id: '4',
-        photo: './assets/photo.png',
-        title: 'my title for a good post',
-        body: 'Polar Night is made up of four darker colors that are commonly used for base elements like backgrounds or text color in bright ambiance designs.',
-        likes: 3,
-        good: true,
-        liked: true,
-        user: {
-          name: 'Lorem Ipson',
-          username: 'lorem',
-          userId: 345,
-        },
-      },
-    ], 
+      posts: [],
+      totalPages: null,
+      page: 1,
+      isRefreshing: false,
     };
   }
-  
-  lastId = 4
+
   static contextType = FeedContext;
-    loadFeed = () => {
-      newId = this.lastId +1;
-      newData = [{
-        id: newId.toString(),
-        photo: './assets/photo.png',
-        title: 'Another bad post',
-        body: 'For bright ambiance designs, it is used for base elements like plain text, the text editor caret and reserved syntax characters like curly- and square brackets.',
-        likes: 3,
-        good: false,
-        liked: true,
-        user: {
-          name: 'Lorem Ipson',
-          username: 'lorem',
-          userId: 345,
-        },
-      }]
-      this.lastId++
-//      this.setState({posts: [...this.state.posts, ...newData]})
+
+  componentDidMount() {
+    this.getPosts();
   }
+  loadFeed = async () => {
+    const {page, posts, totalPages} = this.state;
+    const token = await AsyncStorage.getItem('@UserToken');
+    if (page >= totalPages) return;
+    const newPosts = await api.get('/posts', {
+      headers: {Authorization: token, page: page + 1},
+    });
+    this.setState({posts: [...posts, ...newPosts.data.posts], page: page + 1});
+  };
+  getPosts = async () => {
+    const token = await AsyncStorage.getItem('@UserToken');
+    const myPosts = await api.get('/posts', {headers: {Authorization: token}});
+    console.log(myPosts.data);
+    this.setState({
+      posts: myPosts.data.posts,
+      totalPages: myPosts.data.pages,
+      page: 1,
+    });
+  };
+  refreshPosts = () => {
+    this.setState({isRefreshing: true, posts: []});
+    this.getPosts().then(() => {
+      this.setState({isRefreshing: false});
+    });
+  };
 
-  lastTap = null;
-  handleLike = (item) => {
-    const now = Date.now();
-    const LIKE_DELAY = 300;
-
-    if (this.lastTap && (now - this.lastTap) < LIKE_DELAY){
-      console.log(item); 
-      this.setState({likedIndex: '2'});
-    }
-    else
-      this.lastTap = now;
-  }
-
-  shouldComponentUpdate(nextProps, nextState){
-    return this.state.likedIndex !== nextState.likedIndex || this.context;
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.state !== nextState || this.props !== nextProps;
   }
 
   render() {
-    
-
     const {isGood, isBad} = this.context;
 
-    function filterGoodPost(value) {
-      return value.good;
-    }
-    
+    const filterGoodPost = value => value.isGood;
+
     const goodPosts = this.state.posts.filter(filterGoodPost);
 
-    function filterBadPost(value) {
-      return !value.good;
-    }
-    const badPosts = this.state.posts.filter(filterBadPost);
+    const filterBadPost = value => !value.isGood;
 
-    function isCloseToBottom({layoutMeasurement, contentOffset, contentSize}){
-      return layoutMeasurement.height + contentOffset.y >= contentSize.height - 120;
-    }
+    const badPosts = this.state.posts.filter(filterBadPost);
 
     return (
       <View style={styles.container}>
         {isGood && isBad ? (
-            <FlatList
-              contentContainerStyle={{ flexGrow: 0 }}
-              data={this.state.posts}
-              onEndReached={this.loadFeed}
-              keyExtractor={item => item.id}
-              renderItem={({item, index}) => <FeedItems Item={item} />}
+          <FlatList
+            contentContainerStyle={{flexGrow: 0}}
+            data={this.state.posts}
+            onEndReached={this.loadFeed}
+            onRefresh={this.refreshPosts}
+            refreshing={this.state.isRefreshing}
+            keyExtractor={item => item.id}
+            renderItem={({item, index}) => <FeedItems item={item} />}
+          />
+        ) : isGood ? (
+          <FlatList
+            contentContainerStyle={{flexGrow: 0}}
+            data={goodPosts}
+            onEndReached={this.loadFeed}
+            onRefresh={this.refreshPosts}
+            refreshing={this.state.isRefreshing}
+            keyExtractor={item => item.id}
+            renderItem={({item, index}) => <FeedItems item={item} />}
           />
         ) : (
-          <Text>asda</Text>
+          <FlatList
+            contentContainerStyle={{flexGrow: 0}}
+            data={badPosts}
+            onEndReached={this.loadFeed}
+            onRefresh={this.refreshPosts}
+            refreshing={this.state.isRefreshing}
+            keyExtractor={item => item.id}
+            renderItem={({item, index}) => <FeedItems item={item} />}
+          />
         )}
       </View>
     );
-}
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FAFAFA',
+    alignSelf: 'stretch',
   },
   postTitle: {
     marginTop: 10,
@@ -187,7 +149,7 @@ const styles = StyleSheet.create({
   },
   likedPlac: {
     top: 210,
-    right:150,
+    right: 150,
     position: 'absolute',
     zIndex: 1,
   },
@@ -201,7 +163,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#3b4252',
   },
-  likeView:{
+  likeView: {
     justifyContent: 'flex-start',
     alignContent: 'center',
     flexDirection: 'row',
@@ -209,28 +171,27 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   likeText: {
-    fontSize:16,
+    fontSize: 16,
   },
   reloadIcon: {
     justifyContent: 'center',
     paddingHorizontal: 12,
-    marginBottom: 5
+    marginBottom: 5,
   },
-  postHeader:{
+  postHeader: {
     backgroundColor: '#FC0',
     alignContent: 'center',
     flexDirection: 'row',
     marginHorizontal: 5,
     marginBottom: 4,
   },
-  headerText:{
+  headerText: {
     backgroundColor: '#CF0',
     alignSelf: 'stretch',
-    flex:1,
+    flex: 1,
     alignContent: 'center',
     marginHorizontal: 5,
     marginBottom: 4,
   },
-
 });
 export default Feed;
